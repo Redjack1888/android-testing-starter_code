@@ -1,7 +1,8 @@
 package com.example.android.architecture.blueprints.todoapp.statistics
 
 import com.example.android.architecture.blueprints.todoapp.data.Task
-import org.junit.Assert.*
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
 class StatisticsUtilsTest {
@@ -11,16 +12,16 @@ class StatisticsUtilsTest {
 
     @Test
     fun getActiveAndCompletedStats_noCompleted_returnsHundredZero() {
-        // Create an active tasks (the false makes this active)
+        // GIVEN a list of tasks with a single, active, task (the false makes this active)
         val tasks = listOf<Task>(
             Task("title", "desc", isCompleted = false)
         )
-        // Call our function
+        // WHEN you call getActiveAndCompletedStats
         val result = getActiveAndCompletedStats(tasks)
 
-        // Check the result
-        assertEquals(0f, result.completedTasksPercent)
-        assertEquals(100f, result.activeTasksPercent)
+        // THEN there are 0% completed tasks and 100% active tasks
+        assertThat(result.completedTasksPercent, `is`(0f))
+        assertThat(result.activeTasksPercent, `is`(100f))
     }
 
     // If there is 2 completed task and 3 active task
@@ -28,7 +29,7 @@ class StatisticsUtilsTest {
 
     @Test
     fun getActiveAndCompletedStats_both_returnsFortySixty() {
-        // Create an active tasks (the false makes this active)
+        // GIVEN a list of tasks with 2, completed, task (the true makes this completed)
         val tasks = listOf<Task>(
             Task("title", "desc", isCompleted = true),
             Task("title", "desc", isCompleted = true),
@@ -36,12 +37,12 @@ class StatisticsUtilsTest {
             Task("title", "desc", isCompleted = false),
             Task("title", "desc", isCompleted = false)
         )
-        // Call our function
+        // WHEN you call getActiveAndCompletedStats
         val result = getActiveAndCompletedStats(tasks)
 
-        // Check the result
-        assertEquals(40f, result.completedTasksPercent)
-        assertEquals(60f, result.activeTasksPercent)
+        // THEN there are 40% completed tasks and 60% active tasks
+        assertThat(result.completedTasksPercent, `is`(40f))
+        assertThat(result.activeTasksPercent, `is`(60f))
     }
 
     // If List of task is empty
@@ -49,15 +50,15 @@ class StatisticsUtilsTest {
 
     @Test
     fun getActiveAndCompletedStats_empty_returnsZeros() {
-        // Create an active tasks (the false makes this active)
+        // GIVEN an empty list of tasks
         val tasks = emptyList<Task>()
 
-        // Call our function
+        // WHEN you call getActiveAndCompletedStats
         val result = getActiveAndCompletedStats(tasks)
 
-        // Check the result
-        assertEquals(0f, result.completedTasksPercent)
-        assertEquals(0f, result.activeTasksPercent)
+        // THEN there are 0% completed tasks and 0% active tasks
+        assertThat(result.completedTasksPercent, `is`(0f))
+        assertThat(result.activeTasksPercent, `is`(0f))
     }
 
     // If List of task is null
@@ -65,15 +66,15 @@ class StatisticsUtilsTest {
 
     @Test
     fun getActiveAndCompletedStats_error_returnsZeros() {
-        // Create an active tasks (the false makes this active)
+        // GIVEN a null list of tasks
         val tasks = null
 
-        // Call our function
+        // WHEN you call getActiveAndCompletedStats
         val result = getActiveAndCompletedStats(tasks)
 
-        // Check the result
-        assertEquals(0f, result.completedTasksPercent)
-        assertEquals(0f, result.activeTasksPercent)
+        // // THEN there are 0% completed tasks and 0% active tasks
+        assertThat(result.completedTasksPercent, `is`(0f))
+        assertThat(result.activeTasksPercent, `is`(0f))
     }
 
 }
